@@ -139,7 +139,7 @@ public static partial class Ron
   }
 
   /// <summary>
-  /// Try to deserialize the result
+  /// Try to deserialize the result.
   /// </summary>
   /// <param name="source">The Ron string to deserialize.</param>
   /// <param name="typeHint">The hint for type inference.</param>

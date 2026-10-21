@@ -3,7 +3,7 @@ namespace RonCS.Exceptions;
 /// <summary>
 /// Exception for when an enum case was unknown.
 /// </summary>
-/// <typeparam name="T"></typeparam>
+/// <typeparam name="T">The type of the enum that was not known.</typeparam>
 /// <param name="value"></param>
 public class UnknownEnumException<T>(T? value) : Exception
 {
@@ -27,9 +27,9 @@ internal static class ExceptionExtensions
   /// <summary>
   /// Creates an enum exception for the value.
   /// </summary>
-  /// <typeparam name="T"></typeparam>
-  /// <param name="value"></param>
-  /// <returns></returns>
+  /// <typeparam name="T">The type of the enum that was not known.</typeparam>
+  /// <param name="value">The value that was encountered.</param>
+  /// <returns>A new UnknownEnumException.</returns>
   public static UnknownEnumException<T> AsEnumException<T>(this T value)
     where T : Enum
   {

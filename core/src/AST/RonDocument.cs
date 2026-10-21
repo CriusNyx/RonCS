@@ -3,12 +3,12 @@ namespace RonCS.AST;
 /// <summary>
 /// AST element for a ron document.
 /// </summary>
-/// <param name="value"></param>
+/// <param name="value">The value fo the document body.</param>
 [Serializable]
 public class RonDocument(RonElement? value) : RonElement
 {
   /// <summary>
-  /// The value of the document body
+  /// The value of the document body.
   /// </summary>
   public RonElement? Value = value;
 

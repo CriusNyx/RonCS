@@ -13,9 +13,9 @@ public class RonByte : RonElement, INumberValue
   public INumberValue inner;
 
   /// <summary>
-  /// Create new RonByte
+  /// Create new RonByte.
   /// </summary>
-  /// <param name="inner">The number value for the byte</param>
+  /// <param name="inner">The number value for the byte.</param>
   public RonByte(INumberValue inner)
   {
     this.inner = inner;

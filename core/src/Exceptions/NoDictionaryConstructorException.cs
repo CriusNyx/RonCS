@@ -3,7 +3,7 @@ namespace RonCS.Exceptions;
 /// <summary>
 /// Indicates that the type could not be initialized because it does not have a constructor with a dictionary type argument.
 /// </summary>
-/// <param name="type"></param>
+/// <param name="type">The type that was attempted to be deserialized.</param>
 public class NoDictionaryConstructorException(Type type) : Exception
 {
   /// <inheritdoc/>

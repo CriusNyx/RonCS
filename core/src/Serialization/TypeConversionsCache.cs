@@ -13,9 +13,9 @@ internal class TypeConversionCache
   /// <summary>
   /// Convert the object to the target type using any known conversion between the two.
   /// </summary>
-  /// <param name="source"></param>
-  /// <param name="target"></param>
-  /// <returns></returns>
+  /// <param name="source">The source object to convert.</param>
+  /// <param name="target">The target type to convert the source object to.</param>
+  /// <returns>The converted object.</returns>
   public static object ConvertTo(object source, Type target)
   {
     // It might be intended that it converts to null.
@@ -25,21 +25,21 @@ internal class TypeConversionCache
   /// <summary>
   /// Convert the element to the target type T.
   /// </summary>
-  /// <typeparam name="T"></typeparam>
-  /// <param name="source"></param>
-  /// <returns></returns>
-  public static T ConvertTo<T>(object source)
+  /// <typeparam name="Target">The type of the conversion target.</typeparam>
+  /// <param name="source">The source type to convert.s</param>
+  /// <returns>The converted object.</returns>
+  public static Target ConvertTo<Target>(object source)
   {
     // It might be intended that it converts to null.
-    return (T)ConvertTo(source, typeof(T));
+    return (Target)ConvertTo(source, typeof(Target));
   }
 
   /// <summary>
   /// Get type converter for type.
   /// </summary>
-  /// <param name="fromType"></param>
-  /// <param name="intoType"></param>
-  /// <returns></returns>
+  /// <param name="fromType">The type to convert from.</param>
+  /// <param name="intoType">The type to convert to.</param>
+  /// <returns>A function to preform the conversion.</returns>
   public static Func<object, object> GetConverter(Type fromType, Type intoType)
   {
     return cache.GetOrSet((fromType, intoType), () => _GetConverter(fromType, intoType));
@@ -110,20 +110,20 @@ public static class TypeConversionExtensions
   /// <summary>
   /// Use the RonConvert algorithm to convert the element to the type T.
   /// </summary>
-  /// <typeparam name="T"></typeparam>
-  /// <param name="source"></param>
-  /// <returns></returns>
-  public static T RonConvert<T>(this object source)
+  /// <typeparam name="Target">The target type.</typeparam>
+  /// <param name="source">The source object to convert.</param>
+  /// <returns>The converted object.</returns>
+  public static Target RonConvert<Target>(this object source)
   {
-    return TypeConversionCache.ConvertTo<T>(source);
+    return TypeConversionCache.ConvertTo<Target>(source);
   }
 
   /// <summary>
-  /// Use the RonConvert algorithm to convert the element to the type T.
+  /// Use the RonConvert algorithm to convert the element to the target type.
   /// </summary>
-  /// <param name="source"></param>
-  /// <param name="targetType"></param>
-  /// <returns></returns>
+  /// <param name="source">The source object to convert.</param>
+  /// <param name="targetType">The target type to convert the object to.</param>
+  /// <returns>The converted object.</returns>
   public static object RonConvert(this object source, Type targetType)
   {
     return TypeConversionCache.ConvertTo(source, targetType);

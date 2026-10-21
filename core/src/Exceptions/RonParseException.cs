@@ -6,7 +6,7 @@ namespace RonCS.Exceptions;
 /// <summary>
 /// Ron document failed to be parsed.
 /// </summary>
-/// <param name="result"></param>
+/// <param name="result">The Superpower parser result.</param>
 public class RonParseException(TokenListParserResult<RonTokenKind, RonDocument> result) : Exception
 {
   /// <summary>

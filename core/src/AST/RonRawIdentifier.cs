@@ -3,7 +3,7 @@ namespace RonCS.AST;
 /// <summary>
 /// AST element for a raw identifier.
 /// </summary>
-/// <param name="name"></param>
+/// <param name="name">The name of the raw identifier.</param>
 [Serializable]
 public class RonRawIdentifier(string? name = null) : RonElement, IIdentifier
 {

@@ -205,10 +205,10 @@ public class RonLexer
   /// <summary>
   /// Try to tokenize the input.
   /// </summary>
-  /// <param name="source">The source code</param>
-  /// <param name="tokens">The token list if successful</param>
-  /// <param name="exception">The exception if failed</param>
-  /// <returns></returns>
+  /// <param name="source">The source code.</param>
+  /// <param name="tokens">The token list if successful.</param>
+  /// <param name="exception">The exception if failed.</param>
+  /// <returns>True if the tokenizer succeeds.</returns>
   public static bool TryTokenize(
     string source,
     out TokenList<RonTokenKind> tokens,
@@ -234,8 +234,8 @@ public class RonLexer
   /// <summary>
   /// Tokenize the ron document and return the token list
   /// </summary>
-  /// <param name="source"></param>
-  /// <returns></returns>
+  /// <param name="source">The source code to parse.</param>
+  /// <returns>The token list.</returns>
   public static TokenList<RonTokenKind> Tokenize(string source)
   {
     if (TryTokenize(source, out var list, out var exception))

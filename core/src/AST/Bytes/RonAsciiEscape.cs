@@ -8,9 +8,9 @@ namespace RonCS.AST;
 public class RonAsciiEscape : StringContent, INumberValue
 {
   /// <summary>
-  /// Create new RonAsciiEscape
+  /// Create new RonAsciiEscape.
   /// </summary>
-  /// <param name="source">Source character to be scaped.</param>
+  /// <param name="source">Source character to be escaped.</param>
   public RonAsciiEscape(char source)
   {
     this.source = source;

@@ -17,33 +17,36 @@ public enum SpecialFloatType
 }
 
 /// <summary>
-/// AST element for a special float number.
+/// AST element for a special floating point number.
 /// </summary>
+/// <remarks>
+/// Sign is not needed since this AST element only represents the value portion of the number.
+/// </remarks>
 public class RonSpecialFloat : RonFloatNumber
 {
   /// <summary>
-  /// The type of the float.
+  /// The special type of the float.
   /// </summary>
-  public SpecialFloatType? type;
+  public SpecialFloatType? specialType;
 
   /// <summary>
   /// Create a new special float.
   /// </summary>
-  /// <param name="type">The type of the special float.</param>
-  public RonSpecialFloat(SpecialFloatType? type)
+  /// <param name="specialType">The type of the special float.</param>
+  public RonSpecialFloat(SpecialFloatType? specialType)
   {
-    this.type = type;
+    this.specialType = specialType;
   }
 
   /// <inheritdoc/>
   public override string Serialize()
   {
-    return type.NotNull(nameof(type)).ToString().NotNull(nameof(type));
+    return specialType.NotNull(nameof(specialType)).ToString().NotNull(nameof(specialType));
   }
 
   /// <inheritdoc/>
   public override string ValueString()
   {
-    return type?.ToString() ?? "";
+    return specialType?.ToString() ?? "";
   }
 }

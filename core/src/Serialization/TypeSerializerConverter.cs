@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Reflection;
 using RonCS.AST;
-using RonCS.Converters;
 
 namespace RonCS.Converters;
 
@@ -13,17 +12,17 @@ public interface TypeSerializerConverter
   /// <summary>
   /// Convert the source object to an AST node.
   /// </summary>
-  /// <param name="context"></param>
-  /// <param name="source"></param>
-  /// <returns></returns>
+  /// <param name="context">The serialization context.</param>
+  /// <param name="source">The object to serialize.</param>
+  /// <returns>The AST element representing the object.</returns>
   public RonElement ToAST(SerializationContext context, object source);
 
   /// <summary>
   /// Create a type converter from attributes if possible.
   /// If no type converter can be created return null.
   /// </summary>
-  /// <param name="type"></param>
-  /// <returns></returns>
+  /// <param name="type">The type to create a type converter for.</param>
+  /// <returns>The new type converter.</returns>
   public static TypeSerializerConverter? CreateTypeConverterFromTypeAttrs(Type type)
   {
     if (type.GetCustomAttribute<RonListAttribute>() is RonListAttribute)
@@ -58,8 +57,8 @@ public interface TypeSerializerConverter
   /// <summary>
   /// Create type converter for a list type if possible. Return null otherwise.
   /// </summary>
-  /// <param name="type"></param>
-  /// <returns></returns>
+  /// <param name="type">The type of the list.</param>
+  /// <returns>The type converter for the list.</returns>
   public static TypeSerializerConverter? CreateTypeConverterForList(Type type)
   {
     // Check if it's a native array.
@@ -86,8 +85,8 @@ public interface TypeSerializerConverter
   /// <summary>
   /// Create a type converter for a dictionary type.
   /// </summary>
-  /// <param name="type"></param>
-  /// <returns></returns>
+  /// <param name="type">The type of the dictionary.</param>
+  /// <returns>The new type converter for the dictionary.</returns>
   public static TypeSerializerConverter? CreateTypeConverterForDictionary(Type type)
   {
     var general = type.MakeGeneral();
@@ -105,9 +104,9 @@ public interface TypeSerializerConverter
   /// <summary>
   /// Create type converter for a type that has fields.
   /// </summary>
-  /// <param name="type"></param>
-  /// <param name="typeName"></param>
-  /// <returns></returns>
+  /// <param name="type">The type to create a converter for.</param>
+  /// <param name="typeName">The name of the type. For most types this is the same as the C# type name.</param>
+  /// <returns>The type converter for the type.</returns>
   public static TypeSerializerConverter CreateTypeConverterForTypeWithFields(
     Type type,
     string? typeName
@@ -137,8 +136,8 @@ public interface TypeSerializerConverter
   /// <summary>
   /// Create type converter for an object type.
   /// </summary>
-  /// <param name="type"></param>
-  /// <returns></returns>
+  /// <param name="type">The object type to create the converter for.</param>
+  /// <returns>The type converter for the object type.</returns>
   public static TypeSerializerConverter CreateTypeConverterForObjectType(Type type)
   {
     // Create converter from attribute.

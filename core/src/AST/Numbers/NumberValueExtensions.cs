@@ -9,10 +9,10 @@ namespace RonCS.AST;
 internal static class NumberValueExtensions
 {
   /// <summary>
-  /// Get the CS type for the number suffix if it is unambiguous.
+  /// Get the CS type for the number suffix if it is unambiguous, or else null.
   /// </summary>
   /// <param name="suffix">The suffix of the integer, if provided.</param>
-  /// <returns>The type represented by this integer if it is unambiguous.</returns>
+  /// <returns>The type represented by this integer if it is unambiguous, or else null.</returns>
   public static Type? CSType(this IntegerSuffix? suffix)
   {
     return suffix switch
@@ -33,10 +33,10 @@ internal static class NumberValueExtensions
   }
 
   /// <summary>
-  /// Get the C# type if it is unambiguous.
+  /// Get the C# type if it is unambiguous, or else null.
   /// </summary>
-  /// <param name="suffix"></param>
-  /// <returns>The C# type if it is unambiguous.</returns>
+  /// <param name="suffix">The suffix of the float, if provided.</param>
+  /// <returns>The C# type if it is unambiguous, or else null.</returns>
   public static Type? CSType(this FloatSuffix? suffix)
   {
     return suffix switch

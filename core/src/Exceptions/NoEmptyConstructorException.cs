@@ -3,7 +3,7 @@ namespace RonCS.Exceptions;
 /// <summary>
 /// Deserialized object could not be constructed because there is no parameterless constructor.
 /// </summary>
-/// <param name="type"></param>
+/// <param name="type">The type that was attempted to be deserialized.</param>
 public class NoEmptyConstructorException(Type type) : Exception
 {
   /// <inheritdoc/>

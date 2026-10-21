@@ -8,14 +8,14 @@ interface IIdentifier
   /// <summary>
   /// The string name of the identifier.
   /// </summary>
-  /// <returns></returns>
+  /// <returns>A C# string representing the identifier value.</returns>
   string IdentifierName();
 }
 
 /// <summary>
 /// AST element for a ron identifier.
 /// </summary>
-/// <param name="name"></param>
+/// <param name="name">The C# string representing the elements value.</param>
 [Serializable]
 public class RonIdentifier(string? name = null) : RonElement, IIdentifier
 {

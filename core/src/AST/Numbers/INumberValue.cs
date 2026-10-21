@@ -1,7 +1,7 @@
 namespace RonCS.AST;
 
 /// <summary>
-/// Common interface for all number AST nodes.
+/// Common interface for all AST nodes that represent a number.
 /// </summary>
 public interface INumberValue
 {
@@ -15,7 +15,7 @@ public interface INumberValue
   /// <summary>
   /// Convert the value to a number.
   /// </summary>
-  /// <param name="hint"></param>
+  /// <param name="hint">A type hint for what type the number will be assigned to.</param>
   /// <returns>The value of the number as a C# value.</returns>
   public object EvaluateNumber(Type? hint);
 

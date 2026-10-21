@@ -19,9 +19,9 @@ public enum RonRangeOperator
 /// <summary>
 /// AST element for a Ron range.
 /// </summary>
-/// <param name="lower"></param>
-/// <param name="op"></param>
-/// <param name="upper"></param>
+/// <param name="lower">The lower value of the range.</param>
+/// <param name="op">The range operator.</param>
+/// <param name="upper">The upper value of the range.</param>
 public class RonRange(
   RonElement? lower = null,
   RonRangeOperator? op = null,

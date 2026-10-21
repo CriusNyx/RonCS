@@ -14,7 +14,7 @@ public abstract class RonStruct : RonElement
   public RonElement? Name { get; set; }
 
   /// <summary>
-  /// Create new Ron struct
+  /// Create new Ron struct.
   /// </summary>
   /// <param name="name">The name of the struct, if it has a name.</param>
   public RonStruct(RonElement? name)
@@ -69,13 +69,13 @@ public class RonTupleStruct : RonStruct
 /// <summary>
 /// AST element for a ron struct with named values.
 /// </summary>
-/// <param name="name"></param>
-/// <param name="body"></param>
+/// <param name="name">The name of the struct.</param>
+/// <param name="body">The values of the struct. These should be RonNamedValue's.</param>
 [Serializable]
 public class RonNamedValueStruct(RonElement? name, params RonElement[]? body) : RonStruct(name)
 {
   /// <summary>
-  /// The body of the named value struct. These should be RonNamedValues.
+  /// The body of the named value struct. These should be RonNamedValue's.
   /// </summary>
   public RonElement[]? Body = body;
 
@@ -104,8 +104,8 @@ public class RonNamedValueStruct(RonElement? name, params RonElement[]? body) : 
 /// <summary>
 /// AST element for a ron map struct.
 /// </summary>
-/// <param name="name"></param>
-/// <param name="mapBody"></param>
+/// <param name="name">The name of the struct.</param>
+/// <param name="mapBody">The body of the struct. These should be RonMapItem's.</param>
 [Serializable]
 public class RonMapStruct(RonElement? name, RonElement? mapBody) : RonStruct(name)
 {

@@ -6,7 +6,7 @@ namespace RonCS.AST;
 public class RonInteger : RonElement, INumberValue
 {
   /// <summary>
-  /// Integer sign, is provided.
+  /// Integer sign, if provided.
   /// </summary>
   public char? sign;
 

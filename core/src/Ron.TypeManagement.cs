@@ -46,11 +46,11 @@ public static partial class Ron
   }
 
   /// <summary>
-  /// Register custom converter to serialize T as a tuple.
+  /// Register custom converter to serialize the target type as a tuple.
   /// </summary>
-  /// <typeparam name="T">The type to register the custom converter for.</typeparam>
+  /// <typeparam name="Target">The type to register the custom converter for.</typeparam>
   /// <param name="converter">The function to convert the element T to a tuple.</param>
-  public static void RegisterTupleConverter<T>(Func<T, object[]> converter)
+  public static void RegisterTupleConverter<Target>(Func<Target, object[]> converter)
   {
     globalContext.RegisterTupleConverter(converter);
   }

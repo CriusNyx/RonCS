@@ -6,8 +6,8 @@ namespace RonCS.AST;
 /// AST element for an element in a ron map.
 /// In most cases key should be a ron string.
 /// </summary>
-/// <param name="key"></param>
-/// <param name="value"></param>
+/// <param name="key">The key for the map item.</param>
+/// <param name="value">The value of the map item.</param>
 [Serializable]
 public class RonMapItem(RonElement? key, RonElement? value) : RonElement
 {

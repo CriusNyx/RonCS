@@ -3,7 +3,7 @@ using RonCS.Exceptions;
 namespace RonCS.AST;
 
 /// <summary>
-/// AST element for a Ron map
+/// AST element for a Ron map.
 /// </summary>
 [Serializable]
 public class RonMap : RonElement
@@ -15,7 +15,7 @@ public class RonMap : RonElement
   public RonElement[]? Values;
 
   /// <summary>
-  /// AST element for a Ron map
+  /// AST element for a Ron map.
   /// </summary>
   /// <param name="values">Values in the ron map.</param>
   public RonMap(params RonElement[]? values)

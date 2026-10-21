@@ -1,7 +1,7 @@
 namespace RonCS.AST;
 
 /// <summary>
-/// Base class for differentiating standard and special float numbers.
+/// Base AST class for differentiating standard and special float numbers.
 /// </summary>
 public abstract class RonFloatNumber
 {

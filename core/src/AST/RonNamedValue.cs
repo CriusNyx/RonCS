@@ -5,8 +5,8 @@ namespace RonCS.AST;
 /// <summary>
 /// AST element for a ron named value. These are typically body elements for a ron struct.
 /// </summary>
-/// <param name="name"></param>
-/// <param name="value"></param>
+/// <param name="name">The name of the pair.</param>
+/// <param name="value">The value fo the pair.</param>
 [Serializable]
 public class RonNamedValue(RonElement? name = null, RonElement? value = null) : RonElement
 {

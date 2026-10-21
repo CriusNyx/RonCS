@@ -18,8 +18,8 @@ public partial class SerializationContext
   /// Convert the object to a Ron AST.
   /// If field type is provided it will allow for inference for the element.
   /// </summary>
-  /// <param name="source"></param>
-  /// <param name="fieldType"></param>
+  /// <param name="source">The source object to convert to an AST element.</param>
+  /// <param name="fieldType">The type of the field being serialized, if relevant.</param>
   /// <returns></returns>
   public RonElement ToAST(object? source, Type? fieldType = null)
   {

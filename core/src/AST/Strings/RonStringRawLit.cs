@@ -1,7 +1,7 @@
 namespace RonCS.AST;
 
 /// <summary>
-/// Raw string literal.
+/// AST element for the value of a raw string literal.
 /// </summary>
 /// <param name="source"></param>
 public class RonStringRawLit(string source) : StringContent

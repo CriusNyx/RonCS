@@ -1,7 +1,7 @@
 namespace RonCS.AST;
 
 /// <summary>
-/// AST element for a RonBool
+/// AST element for a RonBool.
 /// </summary>
 /// <param name="value"></param>
 [Serializable]

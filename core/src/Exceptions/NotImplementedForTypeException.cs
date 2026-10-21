@@ -2,11 +2,12 @@ namespace RonCS.Exceptions;
 
 /// <summary>
 /// Could not call the specified method because it does not exist on the type.
+/// This indicates that there is a bug with the library.
 /// </summary>
 /// <param name="methodName"></param>
 /// <param name="type"></param>
 public class NotImplementedForArgumentTypeException(string methodName, Type type) : Exception
 {
   /// <inheritdoc/>
-  public override string Message => $"{methodName} is not implemented for type ${type}";
+  public override string Message => $"{methodName} is not implemented for type ${type}. This indicates that there is a bug with the library.";
 }

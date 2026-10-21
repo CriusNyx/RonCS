@@ -3,7 +3,7 @@ namespace RonCS.Exceptions;
 /// <summary>
 /// Ron document failed to deserialize.
 /// </summary>
-/// <param name="reasons"></param>
+/// <param name="reasons">The reasons that the ron document failed to deserialize.</param>
 public class DeserializationException(params DeserializationExceptionReason[] reasons) : Exception
 {
   /// <summary>
@@ -27,7 +27,7 @@ public class DeserializationException(params DeserializationExceptionReason[] re
 /// <summary>
 /// Reason why a document failed to deserialize.
 /// </summary>
-/// <param name="ronPath"></param>
+/// <param name="ronPath">The path of the element that failed to deserialize.</param>
 public abstract class DeserializationExceptionReason(string ronPath)
 {
   /// <summary>
@@ -44,9 +44,9 @@ public abstract class DeserializationExceptionReason(string ronPath)
 /// <summary>
 /// Indicates that a document failed to deserialize because the source type does not have the specified field.
 /// </summary>
-/// <param name="ronPath"></param>
-/// <param name="deserializedType"></param>
-/// <param name="fieldName"></param>
+/// <param name="ronPath">The path of the element that failed to deserialize.</param>
+/// <param name="deserializedType">the type that was deserialized.</param>
+/// <param name="fieldName">The field that was attempted to deserialize.</param>
 public class NoFieldOrPropertyException(string ronPath, Type deserializedType, string fieldName)
   : DeserializationExceptionReason(ronPath)
 {

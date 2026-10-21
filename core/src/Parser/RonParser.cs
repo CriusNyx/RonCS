@@ -10,7 +10,7 @@ using TParser = Superpower.TokenListParser<RonCS.AST.RonTokenKind, RonCS.AST.Ron
 namespace RonCS.AST;
 
 /// <summary>
-/// Parser for ron documents
+/// Parser for ron documents.
 /// </summary>
 public static class RonParser
 {
@@ -29,7 +29,7 @@ public static class RonParser
 
   // Value
   /// <summary>
-  /// Value = Option | Tuple | Struct | Map | Primitive
+  /// Value = Option | Tuple | Struct | Map | Primitive;
   /// </summary>
   public static TParser Value = Parse.Ref(() =>
     Parse.OneOf(
@@ -67,7 +67,7 @@ public static class RonParser
 
   // Value Sets
   /// <summary>
-  /// ValueSet = Value { Value ',' } [',']
+  /// ValueSet = Value { Value ',' } [','];
   /// </summary>
   public static MultiParser ValueSet = Value
     .SeparatedBy(Token.EqualTo(RonTokenKind.Comma))
@@ -75,7 +75,7 @@ public static class RonParser
     .TrailingComma();
 
   /// <summary>
-  /// NamedValue = Identifier ':' Value
+  /// NamedValue = Identifier ':' Value;
   /// </summary>
   public static TParser NamedValue = Identifier
     .ThenIgnore(Token.EqualTo(RonTokenKind.Colon))
@@ -84,7 +84,7 @@ public static class RonParser
     );
 
   /// <summary>
-  /// NamedValueSet = NamedValue { ',' NamedValue } [',']
+  /// NamedValueSet = NamedValue { ',' NamedValue } [','];
   /// </summary>
   public static MultiParser NamedValueSet = NamedValue
     .SeparatedBy(Token.EqualTo(RonTokenKind.Comma))
@@ -148,7 +148,7 @@ public static class RonParser
 
   /// <summary>
   /// Summary
-  /// MapStruct = Identifier Map
+  /// MapStruct = Identifier Map;
   /// </summary>
   public static TParser MapStruct =
     from name in Identifier!.OptionalOrDefault()

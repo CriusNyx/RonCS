@@ -5,7 +5,7 @@ namespace RonCS.AST;
 /// <summary>
 /// AST element for a ron list.
 /// </summary>
-/// <param name="values"></param>
+/// <param name="values">The values of the ron list.</param>
 public class RonList(params RonElement[]? values) : RonElement
 {
   /// <summary>

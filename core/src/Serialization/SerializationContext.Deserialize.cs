@@ -10,7 +10,7 @@ namespace RonCS;
 /// Context for serializing ron elements.
 /// Custom overrides for Ron are stored in the local or global serialization context.
 /// </summary>
-/// <param name="parentContext"></param>
+/// <param name="parentContext">The parent context. Null for the root context.</param>
 public partial class SerializationContext(SerializationContext? parentContext = null)
 {
   /// <summary>
@@ -24,18 +24,17 @@ public partial class SerializationContext(SerializationContext? parentContext = 
   public readonly Dictionary<Type, Type> proxyTypes = new Dictionary<Type, Type>();
 
   /// <summary>
-  /// The parent serializtion context to inherit.
+  /// The parent serialization context to inherit.
   /// </summary>
   private SerializationContext? parentContext = parentContext;
 
   /// <summary>
-  /// Deserialize a ron element
+  /// Deserialize a ron element.
   /// </summary>
-  /// <param name="element"></param>
-  /// <param name="typeHint"></param>
-  /// <param name="path"></param>
-  /// <returns></returns>
-  /// <exception cref="NotImplementedException"></exception>
+  /// <param name="element">The element to deserialize.</param>
+  /// <param name="typeHint">The type hint to deserialize the object to.</param>
+  /// <param name="path">The path of the element being deserialized.</param>
+  /// <returns>The C# object deserialized.</returns>
   internal SerializationResult<object?> DeserializeElement(
     RonElement? element,
     Type? typeHint,
@@ -65,7 +64,7 @@ public partial class SerializationContext(SerializationContext? parentContext = 
       RonTupleStruct tupleStruct => DeserializeTupleStructClass(typeHint, tupleStruct, path),
       RonMapStruct mapStruct => DeserializeElement(
         mapStruct.MapBody,
-        GetTypeFromName(mapStruct.Name.IdentifierName(), typeHint),
+        ResolveTypeName(mapStruct.Name.IdentifierName(), typeHint),
         path
       ),
       RonTuple tuple => DeserializeTupleClassBody(typeHint.NotNull("typeHint"), tuple, path),
@@ -77,11 +76,11 @@ public partial class SerializationContext(SerializationContext? parentContext = 
   }
 
   /// <summary>
-  ///  Deserialize Unit Tuple
+  ///  Deserialize Unit Tuple.
   /// </summary>
-  /// <param name="typeHint"></param>
-  /// <param name="unitStruct"></param>
-  /// <returns></returns>
+  /// <param name="typeHint">The type hint to deserialize the object to.</param>
+  /// <param name="unitStruct">The RonUnitStruct to deserialize.</param>
+  /// <returns>A serialization result with the object.</returns>
   internal SerializationResult<object?> DeserializeUnitClass(
     Type typeHint,
     RonUnitStruct unitStruct
@@ -92,7 +91,7 @@ public partial class SerializationContext(SerializationContext? parentContext = 
       return DeserializeEnum(typeHint, unitStruct.Name.NotNull(nameof(unitStruct.Name)));
     }
 
-    var actualType = GetTypeFromName(unitStruct.Name.IdentifierName(), typeHint)
+    var actualType = ResolveTypeName(unitStruct.Name.IdentifierName(), typeHint)
       .NotNull("actualType");
 
     var constructor = actualType.GetConstructor([]);
@@ -106,22 +105,22 @@ public partial class SerializationContext(SerializationContext? parentContext = 
   }
 
   /// <summary>
-  ///  Deserialize Enum
+  ///  Deserialize Enum.
   /// </summary>
-  /// <param name="enumType"></param>
-  /// <param name="identifier"></param>
-  /// <returns></returns>
+  /// <param name="enumType">The type of the enum.</param>
+  /// <param name="identifier">The identifier.</param>
+  /// <returns>A serialization result with the enum.</returns>
   internal SerializationResult<object?> DeserializeEnum(Type enumType, RonElement identifier)
   {
     return Enum.Parse(enumType, identifier.IdentifierName().NotNull(nameof(identifier))).AsOk()!;
   }
 
   /// <summary>
-  /// Deserialize name value struct
+  /// Deserialize name value struct.
   /// </summary>
-  /// <param name="typeHint"></param>
-  /// <param name="element"></param>
-  /// <param name="path"></param>
+  /// <param name="typeHint">The type hint to deserialize the object to.</param>
+  /// <param name="element">The element to deserialize.</param>
+  /// <param name="path">The path of the element.</param>
   /// <returns></returns>
   internal SerializationResult<object?> DeserializeNamedValueClass(
     Type? typeHint,
@@ -130,7 +129,7 @@ public partial class SerializationContext(SerializationContext? parentContext = 
   )
   {
     var typeName = element.Name.IdentifierName();
-    var actualType = GetTypeFromName(typeName, typeHint).NotNull("actualType");
+    var actualType = ResolveTypeName(typeName, typeHint).NotNull("actualType");
     var constructor = actualType.GetConstructor([]);
     if (constructor == null)
     {
@@ -207,7 +206,7 @@ public partial class SerializationContext(SerializationContext? parentContext = 
   {
     var body = element.Body.AsNotNull<RonTuple>();
 
-    var actualType = GetTypeFromName(element.Name.IdentifierName(), typeHint).NotNull("actualType");
+    var actualType = ResolveTypeName(element.Name.IdentifierName(), typeHint).NotNull("actualType");
     return DeserializeTupleClassBody(actualType, body, path);
   }
 
@@ -381,37 +380,36 @@ public partial class SerializationContext(SerializationContext? parentContext = 
   /// <summary>
   /// Get a type from it's name.
   /// </summary>
-  /// <param name="name"></param>
-  /// <param name="backupType"></param>
-  /// <returns></returns>
-  /// <exception cref="InvalidOperationException"></exception>
-  public Type? GetTypeFromName(string? name, Type? backupType)
+  /// <param name="name">The name of the type.</param>
+  /// <param name="backupType">The backup type to use if resolution fails.</param>
+  /// <returns>The type to use for deserialization if it can be resolved. Null otherwise.</returns>
+  public Type? ResolveTypeName(string? name, Type? backupType)
   {
     if (RonTypes.TryFind((x) => x.Name == name, out var result))
     {
-      return GetIntermediateType(result);
+      return ResolveIntermediateType(result);
     }
     if (proxyTypes.TryFindByKey((x) => x.Name == name, out var proxyResult))
     {
       return proxyResult;
     }
-    if (parentContext?.GetTypeFromName(name, backupType) is Type type)
+    if (parentContext?.ResolveTypeName(name, backupType) is Type type)
     {
-      return GetIntermediateType(type);
+      return ResolveIntermediateType(type);
     }
     if (name != null && name.ToLower() != backupType?.Name.ToLower())
     {
       throw new InvalidOperationException();
     }
-    return GetIntermediateType(backupType);
+    return ResolveIntermediateType(backupType);
   }
 
   /// <summary>
   /// Get intermediate deserialization type, such as for a proxy.
   /// </summary>
-  /// <param name="targetType"></param>
-  /// <returns></returns>
-  public Type? GetIntermediateType(Type? targetType)
+  /// <param name="targetType">The target type to deserialize to.</param>
+  /// <returns>The intermediate type to use for deserialization.</returns>
+  public Type? ResolveIntermediateType(Type? targetType)
   {
     if (targetType == null)
     {
@@ -432,9 +430,8 @@ public partial class SerializationContext(SerializationContext? parentContext = 
   /// Infer the type of the AST element.
   /// If the type cannot be inferred then return null.
   /// </summary>
-  /// <param name="element"></param>
-  /// <returns></returns>
-  /// <exception cref="NotImplementedException"></exception>
+  /// <param name="element">The element to infer the type of.</param>
+  /// <returns>The type if it can be inferred.</returns>
   public Type? InferType(RonElement? element)
   {
     return element switch
@@ -443,8 +440,8 @@ public partial class SerializationContext(SerializationContext? parentContext = 
       RonString => typeof(string),
       INumberValue numVal => numVal.CSType(),
       RonDocument doc => InferType(doc.Value.NotNull("doc.value")),
-      RonIdentifier ident => GetTypeFromName(ident.Name, null),
-      RonRawIdentifier ident => GetTypeFromName(ident.Name, null),
+      RonIdentifier ident => ResolveTypeName(ident.Name, null),
+      RonRawIdentifier ident => ResolveTypeName(ident.Name, null),
       RonSome some => InferType(some.value!),
       RonRange => typeof(Range),
       RonStruct ronStruct => InferType(ronStruct.Name),
@@ -462,8 +459,8 @@ public partial class SerializationContext(SerializationContext? parentContext = 
   /// <summary>
   /// Get the value type for deserializing a ron map.
   /// </summary>
-  /// <param name="type"></param>
-  /// <returns></returns>
+  /// <param name="type">The map type.</param>
+  /// <returns>The value type of the map.</returns>
   public Type? GetMapIntermediateType(Type? type)
   {
     if (type == null)
@@ -492,9 +489,9 @@ public partial class SerializationContext(SerializationContext? parentContext = 
   /// <summary>
   /// Convert type from the source to the targetType.
   /// </summary>
-  /// <param name="source"></param>
-  /// <param name="targetType"></param>
-  /// <returns></returns>
+  /// <param name="source">The source object.</param>
+  /// <param name="targetType">The target type.</param>
+  /// <returns>The converted object.</returns>
   public object? ConvertType(object? source, Type? targetType)
   {
     if (targetType is null)
@@ -519,7 +516,7 @@ public partial class SerializationContext(SerializationContext? parentContext = 
   /// <summary>
   /// Create global serialization context.
   /// </summary>
-  /// <returns></returns>
+  /// <returns>The global serialization context.</returns>
   internal static SerializationContext CreateGlobalContext()
   {
     return new SerializationContext().Touch(context =>

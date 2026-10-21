@@ -1,4 +1,3 @@
-using System.Numerics;
 using RonCS.Exceptions;
 
 namespace RonCS.AST;
@@ -59,7 +58,7 @@ public class RonUnsigned : INumberValue
   /// <summary>
   /// Get the base for the number.
   /// </summary>
-  /// <returns></returns>
+  /// <returns>The base for the number.</returns>
   /// <exception cref="InvalidOperationException"></exception>
   private int GetBase()
   {

@@ -22,8 +22,8 @@ public static class RonElementExtensions
   /// <summary>
   /// If the element is an identifier return it's name. Otherwise returns null.
   /// </summary>
-  /// <param name="element"></param>
-  /// <returns></returns>
+  /// <param name="element">The element to evaluate as an identifier.</param>
+  /// <returns>A C# string representing the element value.</returns>
   public static string? IdentifierName(this RonElement? element)
   {
     if (element is IIdentifier ident)

@@ -5,7 +5,7 @@ namespace RonCS.AST;
 /// <summary>
 /// AST element representing a string.
 /// </summary>
-/// <param name="content"></param>
+/// <param name="content">The content of the string.</param>
 public class RonString(params StringContent[] content) : RonElement
 {
   /// <summary>
@@ -16,7 +16,7 @@ public class RonString(params StringContent[] content) : RonElement
   /// <summary>
   /// Evaluate this AST element as a C# string.
   /// </summary>
-  /// <returns></returns>
+  /// <returns>The value of the AST element as a C# string.</returns>
   public string Evaluate() => content.Select(x => x.EvaluateString()).StringJoin();
 
   /// <inheritdoc/>

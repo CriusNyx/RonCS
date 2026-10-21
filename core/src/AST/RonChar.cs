@@ -3,7 +3,7 @@ namespace RonCS.AST;
 /// <summary>
 /// AST element for a RonChar.
 /// </summary>
-/// <param name="value"></param>
+/// <param name="value">The value as a C# character.</param>
 public class RonChar(char value) : RonElement
 {
   /// <summary>

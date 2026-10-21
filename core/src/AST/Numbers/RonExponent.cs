@@ -6,17 +6,20 @@ namespace RonCS.AST;
 public class RonExponent
 {
   /// <summary>
-  /// Exponent character if provided
+  /// Exponent character if provided.
   /// </summary>
+  /// <remarks>
+  /// This is for round tripping, but is currently not implemented.
+  /// </remarks>
   public char? e;
 
   /// <summary>
-  /// Sign.
+  /// Sign of the exponent, or null.
   /// </summary>
   public char? sign;
 
   /// <summary>
-  /// Digits
+  /// The digits of the exponent as a string.
   /// </summary>
   public string? digits;
 

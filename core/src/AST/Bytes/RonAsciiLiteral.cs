@@ -8,7 +8,7 @@ public class RonAsciiLiteral : INumberValue
   char c;
 
   /// <summary>
-  /// Create new RonAsciiLiteral
+  /// Create new RonAsciiLiteral.
   /// </summary>
   /// <param name="c">The character represented by the literal.</param>
   public RonAsciiLiteral(char c)

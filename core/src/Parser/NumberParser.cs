@@ -11,7 +11,7 @@ public static class NumberParser
 {
   #region Unsigned
   /// <summary>
-  /// Unsigned binary number
+  /// Unsigned binary number.
   /// </summary>
   public static TextParser<RonUnsigned> UnsignedBinary_Parser = Span.EqualTo("0b")
     .Try()
@@ -22,7 +22,7 @@ public static class NumberParser
     );
 
   /// <summary>
-  /// Unsigned octal number
+  /// Unsigned octal number.
   /// </summary>
   public static TextParser<RonUnsigned> UnsignedOctal_Parser = Span.EqualTo("0o")
     .Try()
@@ -33,7 +33,7 @@ public static class NumberParser
     );
 
   /// <summary>
-  /// Unsigned hex number
+  /// Unsigned hex number.
   /// </summary>
   public static TextParser<RonUnsigned> UnsignedHex_Parser = Span.EqualTo("0x")
     .Try()
@@ -44,14 +44,14 @@ public static class NumberParser
     );
 
   /// <summary>
-  /// Unsigned decimal number
+  /// Unsigned decimal number.
   /// </summary>
   public static TextParser<RonUnsigned> UnsignedDecimal_Parser = StringParser
     .Digit_Parser.AsDigitString()
     .Select(value => new RonUnsigned(null, value));
 
   /// <summary>
-  /// Unsigned number
+  /// Unsigned number.
   /// </summary>
   public static TextParser<RonUnsigned> Unsigned_Parser = Parse.OneOf(
     UnsignedBinary_Parser,
@@ -81,7 +81,7 @@ public static class NumberParser
   #region Byte
 
   /// <summary>
-  /// Escaped byte
+  /// Escaped byte.
   /// </summary>
   public static TextParser<RonByte> EscapedByte_Parser =
     from escape in Character.EqualTo('\\')
@@ -93,14 +93,14 @@ public static class NumberParser
     select new RonByte(content.AsNotNull<INumberValue>("content"));
 
   /// <summary>
-  /// Escaped ascii number
+  /// Escaped ascii number.
   /// </summary>
   public static TextParser<RonByte> ByteAscii_Parser = Character.AnyChar.Select(c => new RonByte(
     new RonAsciiLiteral(c)
   ));
 
   /// <summary>
-  /// Byte
+  /// Byte.
   /// </summary>
   public static TextParser<RonByte> ByteContent_Parser = Parse.OneOf(
     EscapedByte_Parser,
@@ -108,7 +108,7 @@ public static class NumberParser
   );
 
   /// <summary>
-  /// Byte
+  /// Byte.
   /// </summary>
   public static TextParser<RonByte> Byte_Parser = Character
     .EqualTo('b')
@@ -133,7 +133,7 @@ public static class NumberParser
     select before + dot + after;
 
   /// <summary>
-  /// ?
+  /// ?.
   /// </summary>
   public static TextParser<string> FloatFrac_Parser =
     from c in Span.EqualTo('.').ThenIgnore(Parse.Not(Character.EqualTo('.')))
@@ -141,7 +141,7 @@ public static class NumberParser
     select c + digits;
 
   /// <summary>
-  /// Exponent
+  /// Exponent.
   /// </summary>
   public static TextParser<RonExponent> FloatExp_Parser =
     from e in Character.In('e', 'E')
@@ -151,7 +151,7 @@ public static class NumberParser
     select new RonExponent(e, sign, leading + digits);
 
   /// <summary>
-  /// Standard float num
+  /// Standard float num.
   /// </summary>
   public static TextParser<RonFloatNumber> StandardFloatNum_Parser =
     from digits in Parse.OneOf(FloatInt_Parser.Try(), FloatStd_Parser, FloatFrac_Parser)
@@ -159,14 +159,14 @@ public static class NumberParser
     select new RonStandardFloat(digits, exponent).AsNotNull<RonFloatNumber>();
 
   /// <summary>
-  /// Special float num
+  /// Special float num.
   /// </summary>
   public static TextParser<RonFloatNumber> SpecialFloatNum_Parser = ParseExtensions
     .EnumParser<SpecialFloatType>()
     .Select(value => new RonSpecialFloat(value).AsNotNull<RonFloatNumber>());
 
   /// <summary>
-  /// Float number part
+  /// Float number part.
   /// </summary>
   public static TextParser<RonFloatNumber> FloatNum_Parser = Parse.OneOf(
     StandardFloatNum_Parser,
@@ -174,7 +174,7 @@ public static class NumberParser
   );
 
   /// <summary>
-  /// Float
+  /// Float.
   /// </summary>
   public static TextParser<RonFloat> Float_Parser =
     from sign in Character.In('+', '-').OrNull()
@@ -183,7 +183,7 @@ public static class NumberParser
     select new RonFloat(sign, num, suffix);
 
   /// <summary>
-  /// Number
+  /// Number.
   /// </summary>
   public static TextParser<INumberValue> Number_Parser = Parse.OneOf(
     Byte_Parser.Try().AsNumberValue(),

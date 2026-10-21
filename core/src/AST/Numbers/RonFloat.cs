@@ -6,7 +6,7 @@ namespace RonCS.AST;
 public enum FloatSuffix
 {
   /// <summary>
-  /// 32 bit floating point number
+  /// 32 bit floating point number.
   /// </summary>
   f32,
 
@@ -20,14 +20,14 @@ public enum FloatSuffix
 /// AST element representing a float value.
 /// </summary>
 /// <param name="sign">The sign of the floating point number.</param>
-/// <param name="num">The floating point number.</param>
+/// <param name="num">The value of the floating point number.</param>
 /// <param name="suffix">The suffix for the floating point number.</param>
 public class RonFloat(char? sign = null, RonFloatNumber? num = null, FloatSuffix? suffix = null)
   : RonElement,
     INumberValue
 {
   /// <summary>
-  /// Sign of the float
+  /// Sign of the float, or null.
   /// </summary>
   public char? sign = sign;
 
@@ -56,7 +56,7 @@ public class RonFloat(char? sign = null, RonFloatNumber? num = null, FloatSuffix
   /// <exception cref="InvalidOperationException"></exception>
   private object EvaluateSpecialNum(RonSpecialFloat specialNum, Type? hint)
   {
-    if (specialNum.type == SpecialFloatType.inf)
+    if (specialNum.specialType == SpecialFloatType.inf)
     {
       if (hint == typeof(float))
       {
@@ -81,7 +81,7 @@ public class RonFloat(char? sign = null, RonFloatNumber? num = null, FloatSuffix
         }
       }
     }
-    else if (specialNum.type == SpecialFloatType.NaN)
+    else if (specialNum.specialType == SpecialFloatType.NaN)
     {
       if (hint == typeof(float))
       {
